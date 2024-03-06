@@ -1,9 +1,11 @@
 package cpxml;
 
 import cpxml.data.generated.CDClientContainer;
+import cpxml.data.generated.CDParttypeContainer;
 import cpxml.data.generated.CDSprotypeContainer;
 import cpxml.data.generated.CDTexttypeContainer;
 import cpxml.data.generated.CSpecimenContainer;
+import cpxml.data.generated.PPartContainer;
 import cpxml.data.generated.PSpecialProcContainer;
 import cpxml.data.generated.RMedrecContainer;
 import cpxml.data.generated.RPatDemographContainer;
@@ -14,6 +16,7 @@ import java.io.SequenceInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +45,9 @@ public class XmlUtil {
     static Map<String, CSpecimenContainer.DboCSpecimen> cSpecimenMap = new HashMap<>();
     static Map<String, PSpecialProcContainer.DboPSpecialProc> pSpecialProcMap = new HashMap<>();
     static Map<String, RPatDemographContainer.DboRPatDemograph> rPatDemographMap = new HashMap<>();
-    static Map<String, RMedrecContainer.DboRMedrec> rMedrecMap1 = new HashMap<>();
-    static Map<String, List<RMedrecContainer.DboRMedrec>> rMedrecMap2 = new HashMap<>();
+    static Map<String, List<RMedrecContainer.DboRMedrec>> rMedrecMap = new HashMap<>();
+    static Map<String, CDParttypeContainer.DboCDParttype> cDParttypeMap = new HashMap<>();
+    static Map<String, List<PPartContainer.DboPPart>> pPartMap = new HashMap<>();
     
     public static void main(String[] args) throws Exception {
 
@@ -75,13 +79,33 @@ public class XmlUtil {
 
         RMedrecContainer rMedrecContainer = (RMedrecContainer)loadFromXml(RMedrecContainer.class, "r_medrec");
         for(RMedrecContainer.DboRMedrec e : rMedrecContainer.getDboRMedrec()) {
-            rMedrecMap1.put(e.getPatdemogId() + "|" + e.getMedrecInst(), e);
-            List rMedrecList = rMedrecMap2.get(e.getPatdemogId());
+            List rMedrecList = rMedrecMap.get(e.getPatdemogId());
             if(rMedrecList == null) {
                 rMedrecList = new ArrayList<RMedrecContainer.DboRMedrec>();
-                rMedrecMap2.put(e.getPatdemogId(), rMedrecList);
+                rMedrecMap.put(e.getPatdemogId(), rMedrecList);
             }
             rMedrecList.add(e);
+        }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
+
+        CDParttypeContainer cDParttypeContainer = (CDParttypeContainer)loadFromXml(CDParttypeContainer.class, "c_d_parttype");
+        for(CDParttypeContainer.DboCDParttype e : cDParttypeContainer.getDboCDParttype()) { cDParttypeMap.put(e.getId(), e); }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
+
+        PPartContainer pPartContainer = (PPartContainer)loadFromXml(PPartContainer.class, "p_part");
+        for(PPartContainer.DboPPart e : pPartContainer.getDboPPart()) {
+            List pPartList = pPartMap.get(e.getSpecimenId());
+            if(pPartList == null) {
+                pPartList = new ArrayList<PPartContainer.DboPPart>();
+                pPartMap.put(e.getSpecimenId(), pPartList);
+            }
+            pPartList.add(e);
+            pPartList.sort(new Comparator<PPartContainer.DboPPart>() {
+                @Override
+                public int compare(PPartContainer.DboPPart o1, PPartContainer.DboPPart o2) {
+                    return Integer.valueOf(o1.getPartInst()).compareTo(Integer.valueOf(o2.getPartInst()));
+                }
+            });
         }
         System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
 
@@ -131,7 +155,7 @@ public class XmlUtil {
             CDTexttypeContainer.DboCDTexttype texttype = cDTexttypeMap.get(atts.getValue("texttype_id"));
             RPatDemographContainer.DboRPatDemograph patdemog = rPatDemographMap.get(specimen.getPatdemogId());
 //if(patdemog == null) { return; }
-            List<RMedrecContainer.DboRMedrec> medrecList = rMedrecMap2.get(specimen.getPatdemogId());
+            List<RMedrecContainer.DboRMedrec> medrecList = rMedrecMap.get(specimen.getPatdemogId());
 //if(medrecList == null) { return; }
             StringBuffer mrns = new StringBuffer();
             if(medrecList != null) {
@@ -144,7 +168,7 @@ public class XmlUtil {
                 }
             }
             
-            System.out.print(String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|",
+            System.out.print(String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s",
                 atts.getValue("specimen_id"),
                 atts.getValue("text_inst"),
                 cDClientMap.get(specimen.getClientId()).getName(),
@@ -157,6 +181,7 @@ public class XmlUtil {
                 texttype != null ? texttype.getName() : atts.getValue("texttype_id")
             ));
 
+            System.out.print("|");
             String plainText = atts.getValue("text_data");
             if(plainText == null || plainText.startsWith("{")) {
                 try {
@@ -182,8 +207,21 @@ public class XmlUtil {
                     }
                 }
             }
-            System.out.println(plainText.replace("|", "_").replace("\r\n", "<br/>").replace("\n", "<br/>"));
+            System.out.print(plainText.replace("|", "_").replace("\r\n", "<br/>").replace("\n", "<br/>"));
+
+            List<PPartContainer.DboPPart> partList = pPartMap.get(atts.getValue("specimen_id"));
+            if(partList != null) {
+                for(PPartContainer.DboPPart part : partList) {
+                    System.out.print(String.format("|%s|%s|%s",
+                        part.getPartDesignator(),
+                        cDParttypeMap.get(part.getParttypeId()).getName(),
+                        part.getPartDescription().replace("|", "_").replace("\r\n", "<br/>").replace("\n", "<br/>")
+                    ));
+                }
+            }
             
+            System.out.println("|");
+
         }
 
     }

@@ -9,7 +9,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <exec.mainClass>cpxml.Cpxml2</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>
@@ -100,6 +99,18 @@
                                     <extension>true</extension>
                                     <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
                                     <xsd>${basedir}/src/main/resources/r_medrec.xsd</xsd>
+                                    <packagename>cpxml.data.generated</packagename>
+                                </xsdOption>
+                                <xsdOption>
+                                    <extension>true</extension>
+                                    <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                                    <xsd>${basedir}/src/main/resources/c_d_parttype.xsd</xsd>
+                                    <packagename>cpxml.data.generated</packagename>
+                                </xsdOption>
+                                <xsdOption>
+                                    <extension>true</extension>
+                                    <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                                    <xsd>${basedir}/src/main/resources/p_part.xsd</xsd>
                                     <packagename>cpxml.data.generated</packagename>
                                 </xsdOption>
                             </xsdOptions>

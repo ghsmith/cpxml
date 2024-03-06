@@ -87,7 +87,7 @@ public class XmlUtil {
 
         List<InputStream> streams = Arrays.asList(
             new ByteArrayInputStream("<?xml version='1.1' encoding='UTF-8'?><c_spec_text_container>".getBytes()),
-            new CoPathXmlFileInputStream("c_spec_text.xml"),
+            new XmlFileInputStream("c_spec_text.xml"),
             new ByteArrayInputStream("</c_spec_text_container>".getBytes())
         );
         
@@ -105,7 +105,7 @@ public class XmlUtil {
         Unmarshaller unmarshaller = jc.createUnmarshaller();
         List<InputStream> streams = Arrays.asList(
             new ByteArrayInputStream(String.format("<?xml version='1.1' encoding='UTF-8'?><%s_container>", elementName).getBytes()),
-            new CoPathXmlFileInputStream(String.format("%s.xml", elementName)),
+            new XmlFileInputStream(String.format("%s.xml", elementName)),
             new ByteArrayInputStream(String.format("</%s_container>", elementName).getBytes())
         );
         return unmarshaller.unmarshal(new SequenceInputStream(Collections.enumeration(streams)));

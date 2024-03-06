@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="p_special_proc_container">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dbo.p_special_proc" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="specimen_id" type="xs:string"/>
+                    <xs:attribute name="sp_inst" type="xs:string"/>
+                    <xs:attribute name="sprotype_id" type="xs:string"/>
+                    <xs:attribute name="sprostatus_id" type="xs:string"/>
+                    <xs:attribute name="signout_date" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+</xs:schema>

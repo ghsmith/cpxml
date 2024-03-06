@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="r_pat_demograph_container">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dbo.r_pat_demograph" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="patdemog_id" type="xs:string"/>
+                    <xs:attribute name="lastname" type="xs:string"/>
+                    <xs:attribute name="universal_mednum_stripped" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+</xs:schema>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="r_medrec_container">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dbo.r_medrec" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="patdemog_id" type="xs:string"/>
+                    <xs:attribute name="medrec_inst" type="xs:string"/>
+                    <xs:attribute name="medrec_num_stripped" type="xs:string"/>
+                    <xs:attribute name="client_id" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+</xs:schema>

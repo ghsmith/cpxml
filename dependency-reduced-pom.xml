@@ -89,6 +89,36 @@
                   <xsd>${basedir}/src/main/resources/p_part.xsd</xsd>
                   <packagename>cpxml.data.generated</packagename>
                 </xsdOption>
+                <xsdOption>
+                  <extension>true</extension>
+                  <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                  <xsd>${basedir}/src/main/resources/c_d_synoptic_category.xsd</xsd>
+                  <packagename>cpxml.data.generated</packagename>
+                </xsdOption>
+                <xsdOption>
+                  <extension>true</extension>
+                  <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                  <xsd>${basedir}/src/main/resources/c_d_synoptic_value.xsd</xsd>
+                  <packagename>cpxml.data.generated</packagename>
+                </xsdOption>
+                <xsdOption>
+                  <extension>true</extension>
+                  <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                  <xsd>${basedir}/src/main/resources/c_d_synoptic_ws.xsd</xsd>
+                  <packagename>cpxml.data.generated</packagename>
+                </xsdOption>
+                <xsdOption>
+                  <extension>true</extension>
+                  <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                  <xsd>${basedir}/src/main/resources/c_spec_synoptic_dx.xsd</xsd>
+                  <packagename>cpxml.data.generated</packagename>
+                </xsdOption>
+                <xsdOption>
+                  <extension>true</extension>
+                  <bindingFile>${basedir}/src/main/resources/xjc-binding.xml</bindingFile>
+                  <xsd>${basedir}/src/main/resources/c_spec_synoptic_ws.xsd</xsd>
+                  <packagename>cpxml.data.generated</packagename>
+                </xsdOption>
               </xsdOptions>
             </configuration>
           </execution>

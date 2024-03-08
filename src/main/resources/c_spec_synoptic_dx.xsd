@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="c_spec_synoptic_ws_container">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dbo.c_spec_synoptic_ws" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="specimen_id" type="xs:string"/>
+                    <xs:attribute name="ws_inst" type="xs:string"/>
+                    <xs:attribute name="worksheet_id" type="xs:string"/>
+                    <xs:attribute name="sp_inst" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+</xs:schema>

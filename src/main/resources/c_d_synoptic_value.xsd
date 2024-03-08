@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="c_d_synoptic_value_container">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="dbo.c_d_synoptic_value" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string"/>
+                    <xs:attribute name="name" type="xs:string"/>
+                    <xs:attribute name="abbr" type="xs:string"/>
+                    <xs:attribute name="category_id" type="xs:string"/>
+                    <xs:attribute name="fillin_type" type="xs:string"/>
+                </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+    </xs:element>    
+</xs:schema>

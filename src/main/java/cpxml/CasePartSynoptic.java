@@ -3,7 +3,12 @@ package cpxml;
 import cpxml.data.generated.CDClientContainer;
 import cpxml.data.generated.CDParttypeContainer;
 import cpxml.data.generated.CDSprotypeContainer;
+import cpxml.data.generated.CDSynopticCategoryContainer;
+import cpxml.data.generated.CDSynopticValueContainer;
+import cpxml.data.generated.CDSynopticWsContainer;
 import cpxml.data.generated.CDTexttypeContainer;
+import cpxml.data.generated.CSpecSynopticDxContainer;
+import cpxml.data.generated.CSpecSynopticWsContainer;
 import cpxml.data.generated.CSpecimenContainer;
 import cpxml.data.generated.PPartContainer;
 import cpxml.data.generated.PSpecialProcContainer;
@@ -20,24 +25,15 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.text.Document;
-import javax.swing.text.rtf.RTFEditorKit;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *
  * @author ghsmith
  */
-public class XmlUtil {
+public class CasePartSynoptic {
 
     static Map<String, CDClientContainer.DboCDClient> cDClientMap = new HashMap<>();
     static Map<String, CDSprotypeContainer.DboCDSprotype> cDSprotypeMap = new HashMap<>();
@@ -48,12 +44,18 @@ public class XmlUtil {
     static Map<String, List<RMedrecContainer.DboRMedrec>> rMedrecMap = new HashMap<>();
     static Map<String, CDParttypeContainer.DboCDParttype> cDParttypeMap = new HashMap<>();
     static Map<String, List<PPartContainer.DboPPart>> pPartMap = new HashMap<>();
+
+    static Map<String, CDSynopticCategoryContainer.DboCDSynopticCategory> cDSynopticCategoryMap = new HashMap<>();
+    static Map<String, CDSynopticValueContainer.DboCDSynopticValue> cDSynopticValueMap = new HashMap<>();
+    static Map<String, CDSynopticWsContainer.DboCDSynopticWs> cDSynopticWsMap = new HashMap<>();
+    static Map<String, CSpecSynopticDxContainer.DboCSpecSynopticDx> cSpecSynopticDxMap = new HashMap<>();
+    static Map<String, CSpecSynopticWsContainer.DboCSpecSynopticWs> cSpecSynopticWsMap = new HashMap<>();
     
     public static void main(String[] args) throws Exception {
 
         System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
 
-        CDClientContainer cDClientContainer = (CDClientContainer)loadFromXml(CDClientContainer.class, "c_d_client");
+        /*CDClientContainer cDClientContainer = (CDClientContainer)loadFromXml(CDClientContainer.class, "c_d_client");
         for(CDClientContainer.DboCDClient e : cDClientContainer.getDboCDClient()) { cDClientMap.put(e.getId(), e); }
         System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
 
@@ -107,20 +109,27 @@ public class XmlUtil {
                 }
             });
         }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));*/
+
+        CDSynopticCategoryContainer cDSynopticCategoryContainer = (CDSynopticCategoryContainer)loadFromXml(CDSynopticCategoryContainer.class, "c_d_synoptic_category");
+        for(CDSynopticCategoryContainer.DboCDSynopticCategory e : cDSynopticCategoryContainer.getDboCDSynopticCategory()) { cDSynopticCategoryMap.put(e.getId(), e); }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
+        
+        CDSynopticValueContainer cDSynopticValueContainer = (CDSynopticValueContainer)loadFromXml(CDSynopticValueContainer.class, "c_d_synoptic_value");
+        for(CDSynopticValueContainer.DboCDSynopticValue e : cDSynopticValueContainer.getDboCDSynopticValue()) { cDSynopticValueMap.put(e.getId(), e); }
         System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
 
-        List<InputStream> streams = Arrays.asList(
-            new ByteArrayInputStream("<?xml version='1.1' encoding='UTF-8'?><c_spec_text_container>".getBytes()),
-            new XmlFileInputStream("c_spec_text.xml"),
-            new ByteArrayInputStream("</c_spec_text_container>".getBytes())
-        );
-        
-        SAXParserFactory spf = SAXParserFactory.newInstance();
-        spf.setNamespaceAware(true);
-        SAXParser saxParser = spf.newSAXParser();
-        XMLReader xmlReader = saxParser.getXMLReader();
-        xmlReader.setContentHandler(new SAXHandler());
-        xmlReader.parse(new InputSource(new SequenceInputStream(Collections.enumeration(streams))));
+        CDSynopticWsContainer cDSynopticWsContainer = (CDSynopticWsContainer)loadFromXml(CDSynopticWsContainer.class, "c_d_synoptic_ws");
+        for(CDSynopticWsContainer.DboCDSynopticWs e : cDSynopticWsContainer.getDboCDSynopticWs()) { cDSynopticWsMap.put(e.getId(), e); }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
+
+        CSpecSynopticDxContainer cSpecSynopticDxContainer = (CSpecSynopticDxContainer)loadFromXml(CSpecSynopticDxContainer.class, "c_spec_synoptic_dx");
+        for(CSpecSynopticDxContainer.DboCSpecSynopticDx e : cSpecSynopticDxContainer.getDboCSpecSynopticDx()) { cSpecSynopticDxMap.put(e.getSpecimenId(), e); }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
+
+        CSpecSynopticWsContainer cSpecSynopticWsContainer = (CSpecSynopticWsContainer)loadFromXml(CSpecSynopticWsContainer.class, "c_spec_synoptic_ws");
+        for(CSpecSynopticWsContainer.DboCSpecSynopticWs e : cSpecSynopticWsContainer.getDboCSpecSynopticWs()) { cSpecSynopticWsMap.put(e.getSpecimenId(), e); }
+        System.err.println(String.format("Java heap available [bytes] = %,15d", Runtime.getRuntime().freeMemory()));
         
     }
     
@@ -133,98 +142,6 @@ public class XmlUtil {
             new ByteArrayInputStream(String.format("</%s_container>", elementName).getBytes())
         );
         return unmarshaller.unmarshal(new SequenceInputStream(Collections.enumeration(streams)));
-    }
-    
-    public static class SAXHandler extends DefaultHandler {
-
-        @Override
-        public void startElement(String namespaceURI, String localName, String qName, Attributes atts) throws SAXException {
-
-            if (localName.endsWith("_container")) { return; }
-
-            if(atts.getValue("text_data") == null && atts.getValue("text_data_long") == null) {
-                return;
-            }
-            
-            CSpecimenContainer.DboCSpecimen specimen = cSpecimenMap.get(atts.getValue("specimen_id"));
-//if(specimen == null) { return; }
-            PSpecialProcContainer.DboPSpecialProc specialProc = null;
-            if(atts.getValue("link_inst") != null) {
-                specialProc = pSpecialProcMap.get(atts.getValue("specimen_id") + "|" + atts.getValue("link_inst"));
-            }
-            CDTexttypeContainer.DboCDTexttype texttype = cDTexttypeMap.get(atts.getValue("texttype_id"));
-            RPatDemographContainer.DboRPatDemograph patdemog = rPatDemographMap.get(specimen.getPatdemogId());
-//if(patdemog == null) { return; }
-            List<RMedrecContainer.DboRMedrec> medrecList = rMedrecMap.get(specimen.getPatdemogId());
-//if(medrecList == null) { return; }
-            StringBuffer mrns = new StringBuffer();
-            if(medrecList != null) {
-                for(RMedrecContainer.DboRMedrec e : medrecList) {
-                    if(mrns.length() > 0) { mrns.append("; "); }
-                    mrns.append("[");
-                    mrns.append(cDClientMap.get(e.getClientId()).getName());
-                    mrns.append("] ");
-                    mrns.append(e.getMedrecNumStripped());
-                }
-            }
-            
-            System.out.print(String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s",
-                specimen.getSpecnumYear(),
-                atts.getValue("specimen_id"),
-                atts.getValue("text_inst"),
-                cDClientMap.get(specimen.getClientId()).getName(),
-                specimen.getSpecnumFormatted(),
-                patdemog.getLastname(),
-                patdemog.getUniversalMednumStripped(),
-                mrns,
-                specialProc == null ? "Main Case" : cDSprotypeMap.get(specialProc.getSprotypeId()).getName(),
-                specialProc == null ? specimen.getSignoutDate() : specialProc.getSignoutDate(),
-                texttype != null ? texttype.getName() : atts.getValue("texttype_id")
-            ));
-
-            System.out.print("|");
-            String plainText = atts.getValue("text_data");
-            if(plainText == null || plainText.startsWith("{")) {
-                try {
-                    RTFEditorKit rtfParser = new RTFEditorKit();
-                    Document document = rtfParser.createDefaultDocument();
-                    rtfParser.read(new ByteArrayInputStream(atts.getValue("text_data_long").getBytes()), document, 0);
-                    plainText = document.getText(0, document.getLength());
-                }
-                catch(Exception e1) {
-                    try {
-                        RTFEditorKit rtfParser = new RTFEditorKit();
-                        Document document = rtfParser.createDefaultDocument();
-                        rtfParser.read(new ByteArrayInputStream(atts.getValue("text_data").getBytes()), document, 0);
-                        plainText = document.getText(0, document.getLength());
-                    }
-                    catch(Exception e2) {
-                        if(atts.getValue("text_data") == null && atts.getValue("text_data_long") == null) {
-                            plainText = "*** NULL ***";
-                        }
-                        else {
-                            plainText = "*** RTF-to-TXT conversion error ***";
-                        }
-                    }
-                }
-            }
-            System.out.print(plainText.replace("|", "_").replace("\r\n", "<br/>").replace("\n", "<br/>"));
-
-            List<PPartContainer.DboPPart> partList = pPartMap.get(atts.getValue("specimen_id"));
-            if(partList != null) {
-                for(PPartContainer.DboPPart part : partList) {
-                    System.out.print(String.format("|%s|%s|%s",
-                        part.getPartDesignator(),
-                        cDParttypeMap.get(part.getParttypeId()).getName(),
-                        part.getPartDescription().replace("|", "_").replace("\r\n", "<br/>").replace("\n", "<br/>")
-                    ));
-                }
-            }
-            
-            System.out.println("|");
-
-        }
-
     }
 
 }

@@ -6,6 +6,7 @@
           <xs:sequence>
             <xs:element name="dbo.c_specimen" maxOccurs="unbounded">
                 <xs:complexType>
+                    <xs:attribute name="specnum_year" type="xs:string"/>
                     <xs:attribute name="specimen_id" type="xs:string"/>
                     <xs:attribute name="specnum_formatted" type="xs:string"/>
                     <xs:attribute name="specstatus_id" type="xs:string"/>

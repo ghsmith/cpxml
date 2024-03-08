@@ -168,7 +168,8 @@ public class XmlUtil {
                 }
             }
             
-            System.out.print(String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s",
+            System.out.print(String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s",
+                specimen.getSpecnumYear(),
                 atts.getValue("specimen_id"),
                 atts.getValue("text_inst"),
                 cDClientMap.get(specimen.getClientId()).getName(),
